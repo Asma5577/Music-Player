@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Search_songs, goto_playlist, press_next, press_prev, press, select_song, play_song,next_song;
+int play=10;
+bool go_searching;
+bool go_playlist;
+clock x;</declaration>
+	<template>
+		<name x="5" y="5">Music_Player</name>
+		<declaration>// Place local declarations here.
+
+</declaration>
+		<location id="id0" x="-1717" y="-1861">
+			<name x="-1802" y="-1878">Previous</name>
+		</location>
+		<location id="id1" x="-1496" y="-1674">
+			<name x="-1479" y="-1666">Stop</name>
+		</location>
+		<location id="id2" x="-1275" y="-1853">
+			<name x="-1285" y="-1887">Next</name>
+		</location>
+		<location id="id3" x="-1717" y="-1980">
+			<name x="-1827" y="-1997">Search_Songs</name>
+		</location>
+		<location id="id4" x="-1283" y="-1972">
+			<name x="-1258" y="-1980">Playlist</name>
+		</location>
+		<location id="id5" x="-1496" y="-2091">
+			<name x="-1506" y="-2125">Idle</name>
+		</location>
+		<location id="id6" x="-1496" y="-1861">
+			<name x="-1487" y="-1904">Play</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-1394" y="-1912">next_song?</label>
+			<nail x="-1377" y="-1887"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-1615" y="-1768">x&gt;=15</label>
+			<nail x="-1564" y="-1768"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1496" y="-1950">press?</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1436" y="-1759">press?</label>
+			<nail x="-1437" y="-1763"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1623" y="-1810">play_song?</label>
+			<nail x="-1589" y="-1810"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1419" y="-1810">play_song?</label>
+			<nail x="-1411" y="-1810"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-1436" y="-1861">press_next?</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1632" y="-1887">press_prev?</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-1538" y="-1776">press?</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1623" y="-2014">select_song?</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1470" y="-1938">select_song?</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-1674" y="-2099">Search_songs?</label>
+			<label kind="assignment" x="-1725" y="-2065">go_searching :=true</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1411" y="-2074">goto_playlist?</label>
+			<label kind="assignment" x="-1351" y="-2040">go_playlist :=true</label>
+		</transition>
+	</template>
+	<template>
+		<name>Users</name>
+		<location id="id7" x="-1606" y="-1436">
+			<name x="-1649" y="-1436">Stop</name>
+		</location>
+		<location id="id8" x="-1462" y="-1436">
+			<name x="-1462" y="-1428">Next</name>
+		</location>
+		<location id="id9" x="-1606" y="-1666">
+			<name x="-1598" y="-1700">Start</name>
+		</location>
+		<location id="id10" x="-1462" y="-1666">
+			<name x="-1472" y="-1700">Playlist</name>
+		</location>
+		<location id="id11" x="-1751" y="-1666">
+			<name x="-1836" y="-1683">Searching</name>
+		</location>
+		<location id="id12" x="-1751" y="-1436">
+			<name x="-1819" y="-1462">Previous</name>
+		</location>
+		<location id="id13" x="-1606" y="-1555">
+			<name x="-1598" y="-1589">Play</name>
+		</location>
+		<init ref="id9"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-1547" y="-1419">x&gt;=5</label>
+			<label kind="synchronisation" x="-1529" y="-1444">next_song!</label>
+			<nail x="-1547" y="-1419"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1666" y="-1487">press!</label>
+			<nail x="-1632" y="-1496"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1785" y="-1581">play_song!</label>
+			<nail x="-1751" y="-1555"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1453" y="-1555">play_song!</label>
+			<nail x="-1462" y="-1564"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-1564" y="-1538">press_next!</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-1742" y="-1521">press_prev!</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-1623" y="-1504">press!</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1836" y="-1632">select_song!</label>
+			<nail x="-1751" y="-1598"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1453" y="-1623">select_song!</label>
+			<nail x="-1462" y="-1606"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-1734" y="-1691">Search_songs!</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-1581" y="-1657">goto_playlist!</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-1606" y="-1627">press!</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+player = Music_Player();
+users = Users();
+// List one or more processes to be composed into a system.
+system player, users;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; player.Play</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
