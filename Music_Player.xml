@@ -3,7 +3,7 @@
 <nta>
 	<declaration>// Place global declarations here.
 chan Search_songs, goto_playlist, press_next, press_prev, press, select_song, play_song,next_song;
-int play=10;
+
 bool go_searching;
 bool go_playlist;
 clock x;</declaration>
@@ -16,7 +16,7 @@ clock x;</declaration>
 			<name x="-1802" y="-1878">Previous</name>
 		</location>
 		<location id="id1" x="-1496" y="-1674">
-			<name x="-1479" y="-1666">Stop</name>
+			<name x="-1479" y="-1666">Stop_Playing</name>
 		</location>
 		<location id="id2" x="-1275" y="-1853">
 			<name x="-1285" y="-1887">Next</name>
@@ -37,8 +37,9 @@ clock x;</declaration>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id2"/>
-			<label kind="synchronisation" x="-1394" y="-1912">next_song?</label>
-			<nail x="-1377" y="-1887"/>
+			<label kind="synchronisation" x="-1360" y="-1904">next_song?</label>
+			<label kind="assignment" x="-1402" y="-1895">x=0</label>
+			<nail x="-1385" y="-1895"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
@@ -61,12 +62,14 @@ clock x;</declaration>
 			<source ref="id0"/>
 			<target ref="id6"/>
 			<label kind="synchronisation" x="-1623" y="-1810">play_song?</label>
+			<label kind="assignment" x="-1699" y="-1835">x=0</label>
 			<nail x="-1589" y="-1810"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id6"/>
 			<label kind="synchronisation" x="-1419" y="-1810">play_song?</label>
+			<label kind="assignment" x="-1419" y="-1836">x=0</label>
 			<nail x="-1411" y="-1810"/>
 		</transition>
 		<transition>
@@ -134,8 +137,8 @@ clock x;</declaration>
 		<transition>
 			<source ref="id13"/>
 			<target ref="id8"/>
-			<label kind="guard" x="-1547" y="-1419">x&gt;=5</label>
-			<label kind="synchronisation" x="-1529" y="-1444">next_song!</label>
+			<label kind="guard" x="-1547" y="-1453">x&gt;=5</label>
+			<label kind="synchronisation" x="-1564" y="-1419">next_song!</label>
 			<nail x="-1547" y="-1419"/>
 		</transition>
 		<transition>
@@ -212,6 +215,38 @@ system player, users;
 		</query>
 		<query>
 			<formula>E&lt;&gt; player.Play</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; users.Stop imply player.Stop_Playing</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; player.Next imply(users.Next &amp;&amp; x&gt;=5)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] player.Play imply (player.Stop_Playing &amp;&amp; x&gt;=15)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; player.Search_Songs or player.Playlist or player.Play</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E[] player.Next imply player.Play</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not(player.Search_Songs &amp;&amp; player.Playlist &amp;&amp; player.Play)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; player.Stop_Playing imply player.Play</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; player.Previous or player.Next</formula>
 			<comment></comment>
 		</query>
 	</queries>
